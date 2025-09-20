@@ -1,7 +1,8 @@
 # Проект «Большое путешествие»
 
 * Студент: [Александр Масленников](https://up.htmlacademy.ru/ecmascript-individual/2/user/1866133).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хапов](https://htmlacademy.ru/profile/id118459).
+* Рабочий проект: [Большое путешествие](https://seovoodoo.github.io/1866133-big-trip-2/).
 
 ---
 

@@ -24,7 +24,7 @@ export default class TripPresenter {
 
     render(this.sortComponent, this.container);
     render(this.pointsListComponent, this.container);
-    // render(new EditPointView(getDefaultPoint(), destinations, offers), this.pointsListComponent.getElement());
+    //render(new EditPointView(getDefaultPoint(), destinations, offers), this.pointsListComponent.getElement());
     render(new EditPointView(points[1], offers, destinations), this.pointsListComponent.getElement());
 
     for (const point of points) {

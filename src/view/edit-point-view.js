@@ -2,6 +2,7 @@ import { createElement } from '../render.js';
 import { POINT_TYPES } from '../const.js';
 import { capitalizeFirstLetter, conversionDate } from '../utils.js';
 
+const formatOfferTitle = (title) => title.split(' ').join('-').toLowerCase();
 
 function createEditPointTemplate(point, offers, destinations) {
 
@@ -14,8 +15,8 @@ function createEditPointTemplate(point, offers, destinations) {
   const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
 
   const pointDestination = destinations.find((dest) => dest.id === destination);
-  const { description, pictures } = pointDestination;
-  const pointId = point.id;
+  const { description, pictures } = pointDestination || {};
+  const pointId = point.id || 0;
 
   const typesListHtml = POINT_TYPES.map((pointType) => (
     `<div class="event__type-item">
@@ -45,19 +46,19 @@ function createEditPointTemplate(point, offers, destinations) {
     ? `<section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-          ${typeOffers.map((offer) => (
+          ${typeOffers.map((typeOffer) => (
     `<div class="event__offer-selector">
               <input
                 class="event__offer-checkbox  visually-hidden"
-                id="event-offer-luggage-${pointId}"
+                id="event-offer-${formatOfferTitle(typeOffer.title)}-${pointId}"
                 type="checkbox"
                 name="event-offer-luggage"
-                ${pointOffers.some((item) => item.id === offer.id) ? 'checked' : ''}
+                ${pointOffers.some((item) => item.id === typeOffer.id) ? 'checked' : ''}
               >
-              <label class="event__offer-label" for="event-offer-luggage-${pointId}">
-                <span class="event__offer-title">${offer.title}</span>
+              <label class="event__offer-label" for="event-offer-${formatOfferTitle(typeOffer.title)}-${pointId}">
+                <span class="event__offer-title">${typeOffer.title}</span>
                 &plus;&euro;&nbsp;
-                <span class="event__offer-price">${offer.price}</span>
+                <span class="event__offer-price">${typeOffer.price}</span>
               </label>
             </div>`
   )).join('')}

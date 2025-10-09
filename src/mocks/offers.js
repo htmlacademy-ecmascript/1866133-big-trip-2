@@ -4,22 +4,22 @@ export const mockOffers = [
     offers: [
       {
         id: '1',
-        title: 'taxi offer 1',
+        title: 'Upgrade taxi offer 1',
         price: 110
       },
       {
         id: '2',
-        title: 'taxi offer 2',
+        title: 'Upgrade taxi offer 2',
         price: 120
       },
       {
         id: '3',
-        title: 'taxi offer 3',
+        title: 'Upgrade taxi offer 3',
         price: 130
       },
       {
         id: '4',
-        title: 'taxi offer 4',
+        title: 'Upgrade taxi offer 4',
         price: 140
       }
     ]
@@ -29,27 +29,27 @@ export const mockOffers = [
     offers: [
       {
         id: '1',
-        title: 'bus offer 1',
+        title: 'Upgrade bus offer 1',
         price: 110
       },
       {
         id: '2',
-        title: 'bus offer 2',
+        title: 'Upgrade bus offer 2',
         price: 120
       },
       {
         id: '3',
-        title: 'bus offer 3',
+        title: 'Upgrade bus offer 3',
         price: 130
       },
       {
         id: '4',
-        title: 'bus offer 4',
+        title: 'Upgrade bus offer 4',
         price: 140
       },
       {
         id: '5',
-        title: 'bus offer 5',
+        title: 'Upgrade bus offer 5',
         price: 150
       }
     ]

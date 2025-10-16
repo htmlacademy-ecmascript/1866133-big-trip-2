@@ -14,6 +14,8 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (array) => array[Math.floor(Math.random() * array.length)];
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const DateFormat = {
   'short-date': 'MMM DD',
   'full-date': 'YYYY-MM-DD',
@@ -55,4 +57,11 @@ const getDuration = (dateFrom, dateTo) => {
 
 const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
-export { getRandomInteger, getRandomArrayElement, conversionDate, getDuration, capitalizeFirstLetter };
+export {
+  getRandomInteger,
+  getRandomArrayElement,
+  isEscapeKey,
+  conversionDate,
+  getDuration,
+  capitalizeFirstLetter
+};

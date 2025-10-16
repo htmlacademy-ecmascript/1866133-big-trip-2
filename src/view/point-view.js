@@ -1,8 +1,36 @@
-import { createElement } from '../render.js';
 import { conversionDate, getDuration } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+
+export default class PointView extends AbstractView {
+
+  #point = null;
+  #offers = null;
+  #destinations = null;
+  #handleEditClick = null;
+
+  constructor({point, offers, destinations, onEditButtonClick}) {
+    super();
+    this.#point = point;
+    this.#offers = offers;
+    this.#destinations = destinations;
+    this.#handleEditClick = onEditButtonClick;
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
+  }
+
+  get template() {
+    return createPointTemplate(this.#point, this.#offers, this.#destinations);
+  }
+
+  #editClickHandler = () => {
+    this.#handleEditClick();
+  };
+}
 
 
 function createPointTemplate(point, offers, destinations) {
+  window.console.log('Зашли в createPointTemplate');
   const { basePrice, dateFrom, dateTo, destination, isFavorite, type } = point;
 
   // все возможные предложения для данного типа точки
@@ -13,8 +41,7 @@ function createPointTemplate(point, offers, destinations) {
 
   // направление точки
   const pointDestination = destinations.find((dest) => dest.name === destination);
-  //window.console.log('typeOffers', typeOffers);
-  //window.console.log('pointOffers', pointOffers);
+
   const selectedOffers = pointOffers.map((offer) => (
     `<li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
@@ -60,28 +87,4 @@ function createPointTemplate(point, offers, destinations) {
       </li>
     `
   );
-}
-
-export default class PointView {
-  constructor(point, offers, destinations) {
-    this.point = point;
-    this.offers = offers;
-    this.destinations = destinations;
-  }
-
-  getTemplate() {
-    return createPointTemplate(this.point, this.offers, this.destinations);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }

@@ -2,7 +2,7 @@ import PointModel from './model/points-model';
 import OffersModel from './model/offers-model';
 import DestinationsModel from './model/destinations-model';
 import TripPresenter from './presenter/trip-presenter';
-import { render } from './render';
+import { render } from './framework/render';
 import ListFilterView from './view/list-filter-view';
 
 const headerElement = document.querySelector('.page-header');

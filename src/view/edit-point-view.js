@@ -1,11 +1,45 @@
-import { createElement } from '../render.js';
 import { POINT_TYPES } from '../const.js';
 import { capitalizeFirstLetter, conversionDate } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const formatOfferTitle = (title) => title.split(' ').join('-').toLowerCase();
 
-function createEditPointTemplate(point, offers, destinations) {
+export default class EditPointView extends AbstractView {
 
+  #point = null;
+  #offers = null;
+  #destinations = null;
+  #handleFormSubmit = null;
+  #handleEditClick = null;
+
+  constructor({point, offers, destinations, onFormSubmit, onEditButtonClick}) {
+    super();
+    this.#point = point;
+    this.#offers = offers;
+    this.#destinations = destinations;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleEditClick = onEditButtonClick;
+
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+  }
+
+  get template() {
+    return createEditPointTemplate(this.#point, this.#offers, this.#destinations);
+  }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
+
+  #editClickHandler = () => {
+    this.#handleEditClick();
+  };
+}
+
+
+function createEditPointTemplate(point, offers, destinations) {
   const { basePrice, dateFrom, dateTo, destination, type } = point;
 
   // все возможные предложения для данного типа точки
@@ -69,13 +103,14 @@ function createEditPointTemplate(point, offers, destinations) {
   const picturesListHtml = pictures.map((picture) => `
       <img
         class="event__photo"
-        src=${picture.src}
-        alt=${picture.description}
+        src='${picture.src}'
+        alt='${picture.description}'
       >
   `);
 
   return (
     `
+    <li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
           <div class="event__type-wrapper">
@@ -164,31 +199,7 @@ function createEditPointTemplate(point, offers, destinations) {
       : ''}
         </section>
       </form>
+    </li>
     `
   );
-}
-
-export default class EditPointView {
-
-  constructor(point, offers, destinations) {
-    this.point = point;
-    this.offers = offers;
-    this.destinations = destinations;
-  }
-
-  getTemplate() {
-    return createEditPointTemplate(this.point, this.offers, this.destinations);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
 }

@@ -1,5 +1,10 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
+export default class DestinationView extends AbstractView {
+  get template() {
+    return createDestinationTemplate();
+  }
+}
 
 function createDestinationTemplate() {
   return (
@@ -22,21 +27,3 @@ function createDestinationTemplate() {
   );
 }
 
-export default class DestinationView {
-
-  getTemplate() {
-    return createDestinationTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
-}

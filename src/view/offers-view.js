@@ -1,4 +1,10 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
+
+export default class ListSortView extends AbstractView {
+  get template() {
+    return createOffersTemplate();
+  }
+}
 
 
 function createOffersTemplate() {
@@ -58,21 +64,4 @@ function createOffersTemplate() {
   );
 }
 
-export default class ListSortView {
 
-  getTemplate() {
-    return createOffersTemplate();
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
-}

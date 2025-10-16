@@ -1,34 +1,92 @@
-import { render } from '../render';
+import { render, replace } from '../framework/render';
 import ListSortView from '../view/list-sort-view';
 import ListPointsView from '../view/list-points-view';
 import EditPointView from '../view/edit-point-view';
 import PointView from '../view/point-view';
-//import { getDefaultPoint } from '../const';
+import { isEscapeKey } from '../utils';
 
 export default class TripPresenter {
 
-  sortComponent = new ListSortView();
-  pointsListComponent = new ListPointsView();
+  #container = null;
+  #pointModel = null;
+  #offersModel = null;
+  #destinationsModel = null;
+  #points = [];
+  #offers = [];
+  #destinations = [];
 
-  constructor({container, pointModel, offersModel, destinationsModel}) {
-    this.container = container;
-    this.pointModel = pointModel;
-    this.offersModel = offersModel;
-    this.destinationsModel = destinationsModel;
+  #sortComponent = new ListSortView();
+  #pointsListComponent = new ListPointsView();
+
+  constructor({ container, pointModel, offersModel, destinationsModel }) {
+    this.#container = container;
+    this.#pointModel = pointModel;
+    this.#offersModel = offersModel;
+    this.#destinationsModel = destinationsModel;
   }
 
   init() {
-    const points = this.pointModel.getPoints();
-    const offers = this.offersModel.getOffers();
-    const destinations = this.destinationsModel.getDestinations();
+    this.#points = [...this.#pointModel.points()];
+    this.#offers = [...this.#offersModel.offers()];
+    this.#destinations = [...this.#destinationsModel.destinations()];
 
-    render(this.sortComponent, this.container);
-    render(this.pointsListComponent, this.container);
-    //render(new EditPointView(getDefaultPoint(), destinations, offers), this.pointsListComponent.getElement());
-    render(new EditPointView(points[1], offers, destinations), this.pointsListComponent.getElement());
+    this.#renderTripBoard();
+  }
 
-    for (const point of points) {
-      render(new PointView(point, offers, destinations), this.pointsListComponent.getElement());
+
+  #renderTripBoard() {
+    render(this.#sortComponent, this.#container);
+    render(this.#pointsListComponent, this.#container);
+
+    for (const point of this.#points) {
+      this.#renderPoint(point, this.#offers, this.#destinations);
     }
   }
+
+
+  #renderPoint(point, offers, destinations) {
+    const onDocumentKeydown = (evt) => {
+      if (isEscapeKey(evt)) {
+        evt.preventDefault();
+        replaceFormToCard();
+        document.removeEventListener('keydown', onDocumentKeydown);
+      }
+    };
+
+    const pointComponent = new PointView({
+      point,
+      offers,
+      destinations,
+      onEditButtonClick: () => {
+        replaceCardToForm();
+        document.addEventListener('keydown', onDocumentKeydown);
+      }
+    });
+
+    const pointEditComponent = new EditPointView({
+      point,
+      offers,
+      destinations,
+      onFormSubmit: () => {
+        replaceFormToCard();
+        document.removeEventListener('keydown', onDocumentKeydown);
+      },
+      onEditButtonClick: () => {
+        replaceFormToCard();
+        document.removeEventListener('keydown', onDocumentKeydown);
+      }
+    });
+
+    function replaceCardToForm() {
+      replace(pointEditComponent, pointComponent);
+    }
+
+    function replaceFormToCard() {
+      replace(pointComponent, pointEditComponent);
+    }
+
+    render(pointComponent, this.#pointsListComponent.element);
+  }
 }
+
+

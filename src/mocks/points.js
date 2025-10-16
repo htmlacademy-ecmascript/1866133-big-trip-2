@@ -21,16 +21,6 @@ export const mockPoints = [
     offers: ['1', '3', '5'],
     type: 'bus'
   },
-  // {
-  //   id: '3',
-  //   basePrice: 3500,
-  //   dateFrom: '2025-10-27T10:55:59.845Z',
-  //   dateTo: '2025-10-28T12:55:01.375Z',
-  //   destination: 'Italy',
-  //   isFavorite: false,
-  //   offers: ['1'],
-  //   type: 'flight'
-  // },
   {
     id: '3',
     basePrice: getRandomInteger(3000, 3500),

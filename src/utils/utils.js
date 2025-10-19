@@ -33,7 +33,6 @@ const getDuration = (dateFrom, dateTo) => {
 
   const delta = dayjs.duration(endDate.diff(startDate));
 
-  //const seconds = delta.$d.seconds;
   const minutes = delta.$d.minutes;
   const hours = delta.$d.hours;
   const days = delta.$d.days;

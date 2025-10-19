@@ -3,7 +3,8 @@ import ListSortView from '../view/list-sort-view';
 import ListPointsView from '../view/list-points-view';
 import EditPointView from '../view/edit-point-view';
 import PointView from '../view/point-view';
-import { isEscapeKey } from '../utils';
+import ListEmptyView from '../view/list-empty-view';
+import { isEscapeKey } from '../utils/utils';
 
 export default class TripPresenter {
 
@@ -35,6 +36,12 @@ export default class TripPresenter {
 
 
   #renderTripBoard() {
+
+    if(this.#points.length === 0) {
+      render(new ListEmptyView(), this.#container);
+      return;
+    }
+
     render(this.#sortComponent, this.#container);
     render(this.#pointsListComponent, this.#container);
 

@@ -1,11 +1,11 @@
-import { getRandomInteger } from '../utils.js';
+import { getRandomInteger } from '../utils/utils.js';
 
 export const mockPoints = [
   {
     id: '1',
     basePrice: getRandomInteger(700, 950),
-    dateFrom: '2025-10-25T11:55:56.845Z',
-    dateTo: '2025-10-25T15:22:13.375Z',
+    dateFrom: '2025-10-14T11:55:56.845Z',
+    dateTo: '2025-10-14T15:22:13.375Z',
     destination: 'Amsterdam',
     isFavorite: false,
     offers: ['1', '2'],
@@ -42,3 +42,4 @@ export const mockPoints = [
     type: 'ship'
   }
 ];
+

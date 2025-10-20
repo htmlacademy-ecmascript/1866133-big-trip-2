@@ -4,6 +4,7 @@ import DestinationsModel from './model/destinations-model';
 import TripPresenter from './presenter/trip-presenter';
 import { render } from './framework/render';
 import ListFilterView from './view/list-filter-view';
+import { generateFilter } from './mocks/filter.js';
 
 const headerElement = document.querySelector('.page-header');
 const filtersContainer = headerElement.querySelector('.trip-controls__filters');
@@ -26,5 +27,10 @@ const tripPresenter = new TripPresenter({
   destinationsModel: destinationsModel
 });
 
-render(new ListFilterView(), filtersContainer);
+window.console.log('pointModel', pointModel.points());
+
+const filters = generateFilter(pointModel.points());
+
+
+render(new ListFilterView({filters}), filtersContainer);
 tripPresenter.init();

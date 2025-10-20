@@ -1,5 +1,12 @@
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
+
 const getDefaultPoint = () => ({
   basePrice: 0,
   dateFrom: new Date().toISOString(),
@@ -10,4 +17,4 @@ const getDefaultPoint = () => ({
   type: POINT_TYPES[0]
 });
 
-export { POINT_TYPES , getDefaultPoint };
+export { POINT_TYPES , getDefaultPoint, FilterType };

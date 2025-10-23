@@ -27,10 +27,7 @@ const tripPresenter = new TripPresenter({
   destinationsModel: destinationsModel
 });
 
-window.console.log('pointModel', pointModel.points());
-
 const filters = generateFilter(pointModel.points());
-
 
 render(new ListFilterView({filters}), filtersContainer);
 tripPresenter.init();

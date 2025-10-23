@@ -7,16 +7,21 @@ export default class PointView extends AbstractView {
   #offers = null;
   #destinations = null;
   #handleEditClick = null;
+  #onFavoriteButtonClick = null;
 
-  constructor({point, offers, destinations, onEditButtonClick}) {
+  constructor({point, offers, destinations, onEditButtonClick, onFavoriteButtonClick}) {
     super();
     this.#point = point;
     this.#offers = offers;
     this.#destinations = destinations;
     this.#handleEditClick = onEditButtonClick;
+    this.#onFavoriteButtonClick = onFavoriteButtonClick;
 
     this.element.querySelector('.event__rollup-btn')
       .addEventListener('click', this.#editClickHandler);
+
+    this.element.querySelector('.event__favorite-btn')
+      .addEventListener('click', this.#favoriteClickHandler);
   }
 
   get template() {
@@ -26,11 +31,15 @@ export default class PointView extends AbstractView {
   #editClickHandler = () => {
     this.#handleEditClick();
   };
+
+  #favoriteClickHandler = () => {
+    this.#onFavoriteButtonClick();
+  };
 }
 
 
 function createPointTemplate(point, offers, destinations) {
-  window.console.log('Зашли в createPointTemplate');
+
   const { basePrice, dateFrom, dateTo, destination, isFavorite, type } = point;
 
   // все возможные предложения для данного типа точки

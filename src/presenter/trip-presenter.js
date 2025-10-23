@@ -1,11 +1,9 @@
-import { render, replace } from '../framework/render';
-import ListSortView from '../view/list-sort-view';
-import ListPointsView from '../view/list-points-view';
-import EditPointView from '../view/edit-point-view';
-import PointView from '../view/point-view';
-import ListEmptyView from '../view/list-empty-view';
-import { isEscapeKey } from '../utils/utils';
-
+import { render } from '../framework/render';
+import ListSortView from '../view/list-sort-view.js';
+import ListPointsView from '../view/list-points-view.js';
+import ListEmptyView from '../view/list-empty-view.js';
+import PointPresenter from './point-presenter.js';
+import { updateItem } from '../utils/common.js';
 export default class TripPresenter {
 
   #container = null;
@@ -18,6 +16,7 @@ export default class TripPresenter {
 
   #sortComponent = new ListSortView();
   #pointsListComponent = new ListPointsView();
+  #pointPresenters = new Map();
 
   constructor({ container, pointModel, offersModel, destinationsModel }) {
     this.#container = container;
@@ -34,10 +33,36 @@ export default class TripPresenter {
     this.#renderTripBoard();
   }
 
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
+  #handlePointChange = (updatedPoint) => {
+    this.#points = updateItem(this.#points, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+  };
+
+  #renderPoint(point) {
+    const pointPresenter = new PointPresenter({
+      offers: this.#offers,
+      destinations: this.#destinations,
+      pointListContainer: this.#pointsListComponent.element,
+      onPointChange: this.#handlePointChange,
+      onModeChange: this.#handleModeChange
+    });
+
+    this.#pointPresenters.set(point.id, pointPresenter);
+    pointPresenter.init(point);
+  }
+
+  #clearPointList() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+  }
 
   #renderTripBoard() {
 
-    if(this.#points.length === 0) {
+    if (this.#points.length === 0) {
       render(new ListEmptyView(), this.#container);
       return;
     }
@@ -46,53 +71,8 @@ export default class TripPresenter {
     render(this.#pointsListComponent, this.#container);
 
     for (const point of this.#points) {
-      this.#renderPoint(point, this.#offers, this.#destinations);
+      this.#renderPoint(point);
     }
-  }
-
-
-  #renderPoint(point, offers, destinations) {
-    const onDocumentKeydown = (evt) => {
-      if (isEscapeKey(evt)) {
-        evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener('keydown', onDocumentKeydown);
-      }
-    };
-
-    const pointComponent = new PointView({
-      point,
-      offers,
-      destinations,
-      onEditButtonClick: () => {
-        replaceCardToForm();
-        document.addEventListener('keydown', onDocumentKeydown);
-      }
-    });
-
-    const pointEditComponent = new EditPointView({
-      point,
-      offers,
-      destinations,
-      onFormSubmit: () => {
-        replaceFormToCard();
-        document.removeEventListener('keydown', onDocumentKeydown);
-      },
-      onEditButtonClick: () => {
-        replaceFormToCard();
-        document.removeEventListener('keydown', onDocumentKeydown);
-      }
-    });
-
-    function replaceCardToForm() {
-      replace(pointEditComponent, pointComponent);
-    }
-
-    function replaceFormToCard() {
-      replace(pointComponent, pointEditComponent);
-    }
-
-    render(pointComponent, this.#pointsListComponent.element);
   }
 }
 

@@ -23,7 +23,7 @@ export const mockPoints = [
   },
   {
     id: '3',
-    basePrice: getRandomInteger(3000, 3500),
+    basePrice: getRandomInteger(2000, 2500),
     dateFrom: '2025-10-27T10:55:00.000Z',
     dateTo: '2025-10-28T12:56:00.000Z',
     destination: 'Italy',
@@ -33,7 +33,7 @@ export const mockPoints = [
   },
   {
     id: '4',
-    basePrice: getRandomInteger(2000, 2500),
+    basePrice: getRandomInteger(2500, 2600),
     dateFrom: '2025-10-28T10:00:00.000Z',
     dateTo: '2025-10-29T10:00:00.000Z',
     destination: 'Spain',

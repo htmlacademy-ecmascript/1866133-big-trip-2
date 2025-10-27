@@ -1,7 +1,7 @@
-import { render, replace, remove } from '../framework/render';
-import EditPointView from '../view/edit-point-view';
-import PointView from '../view/point-view';
-import { isEscapeKey } from '../utils/utils';
+import { render, replace, remove } from '../framework/render.js';
+import EditPointView from '../view/edit-point-view.js';
+import PointView from '../view/point-view.js';
+import { isEscapeKey } from '../utils/utils.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -70,7 +70,7 @@ export default class TripPresenter {
     remove(prevPointEditComponent);
   }
 
-  desrtroy() {
+  destroy() {
     remove(this.#pointComponent);
     remove(this.#pointEditComponent);
   }

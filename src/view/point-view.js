@@ -1,4 +1,4 @@
-import { conversionDate, getDuration } from '../utils/utils.js';
+import { conversionDate, getDuration } from '../utils/event.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 export default class PointView extends AbstractView {

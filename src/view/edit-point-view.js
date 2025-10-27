@@ -1,5 +1,6 @@
 import { POINT_TYPES } from '../const.js';
-import { capitalizeFirstLetter, conversionDate } from '../utils/utils.js';
+import { capitalizeFirstLetter } from '../utils/utils.js';
+import { conversionDate } from '../utils/event.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 const formatOfferTitle = (title) => title.split(' ').join('-').toLowerCase();

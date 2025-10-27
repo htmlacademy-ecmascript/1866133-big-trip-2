@@ -7,6 +7,12 @@ const FilterType = {
   PAST: 'past'
 };
 
+const SortType = {
+  DEFAULT: 'sort-day',
+  TIME: 'sort-time',
+  PRICE: 'sort-price'
+};
+
 const getDefaultPoint = () => ({
   basePrice: 0,
   dateFrom: new Date().toISOString(),
@@ -17,4 +23,4 @@ const getDefaultPoint = () => ({
   type: POINT_TYPES[0]
 });
 
-export { POINT_TYPES , getDefaultPoint, FilterType };
+export { POINT_TYPES , getDefaultPoint, FilterType, SortType };

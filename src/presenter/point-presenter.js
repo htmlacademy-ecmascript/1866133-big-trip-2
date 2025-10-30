@@ -8,7 +8,7 @@ const Mode = {
   EDITING: 'EDITING'
 };
 
-export default class TripPresenter {
+export default class PointPresenter {
 
   #point = null;
   #offers = null;
@@ -77,6 +77,7 @@ export default class TripPresenter {
 
   resetView() {
     if(this.#mode !== Mode.DEFAULT) {
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
     }
   }
@@ -101,6 +102,7 @@ export default class TripPresenter {
   #onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
     }
   };
@@ -110,7 +112,6 @@ export default class TripPresenter {
   };
 
   #handleFormClose = () => {
-    this.#replaceFormToCard();
     this.resetView();
   };
 

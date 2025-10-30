@@ -1,6 +1,6 @@
 export const mockDestinations = [
   {
-    id: 'Chamonix',
+    id: 'BBB',
     description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Chamonix',
     pictures: [
@@ -19,7 +19,7 @@ export const mockDestinations = [
     ]
   },
   {
-    id: 'Amsterdam',
+    id: 'AAA',
     description: 'Amsterdam, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Amsterdam',
     pictures: [
@@ -30,13 +30,13 @@ export const mockDestinations = [
     ]
   },
   {
-    id: 'Italy',
+    id: 'CCC',
     description: 'Italy, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Italy',
     pictures: []
   },
   {
-    id: 'Spain',
+    id: 'DDD',
     description: 'Spain, is a beautiful city, a true asian pearl, with crowded streets.',
     name: 'Spain',
     pictures: [

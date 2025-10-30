@@ -49,7 +49,8 @@ function createPointTemplate(point, offers, destinations) {
   const pointOffers = typeOffers.filter((typeOffer) => point.offers.includes(typeOffer.id));
 
   // направление точки
-  const pointDestination = destinations.find((dest) => dest.name === destination);
+  const pointDestination = destinations.find((dest) => dest.id === destination);
+
 
   const selectedOffers = pointOffers.map((offer) => (
     `<li class="event__offer">

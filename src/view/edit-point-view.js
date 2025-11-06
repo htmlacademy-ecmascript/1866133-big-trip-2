@@ -1,5 +1,5 @@
 import { POINT_TYPES } from '../const.js';
-import { capitalizeFirstLetter } from '../utils/utils.js';
+import { capitalizeFirstLetter } from '../utils/common.js';
 import { conversionDate } from '../utils/event.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';

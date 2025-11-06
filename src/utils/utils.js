@@ -7,13 +7,8 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (array) => array[Math.floor(Math.random() * array.length)];
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const capitalizeFirstLetter = (word) => word.charAt(0).toUpperCase() + word.slice(1);
 
 export {
   getRandomInteger,
   getRandomArrayElement,
-  isEscapeKey,
-  capitalizeFirstLetter
 };

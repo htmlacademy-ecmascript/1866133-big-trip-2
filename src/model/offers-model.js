@@ -12,7 +12,7 @@ export default class OffersModel {
     this.#offers = offers;
   }
 
-  offers() {
+  get offers() {
     return this.#offers;
   }
 }

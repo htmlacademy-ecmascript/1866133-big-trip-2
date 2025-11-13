@@ -47,12 +47,18 @@ const getDuration = (dateFrom, dateTo) => {
 const isEventExpired = (dueDate) => dueDate && dayjs().isAfter(dueDate, 'D');
 const isEventToday = (dueDate) => dueDate && dayjs().isSame(dueDate, 'D');
 
-const sortDay = (PointA, PointB) => PointA.dateFrom - PointB.dateFrom;
+const sortDay = (PointA, PointB) => dayjs(PointA.dateFrom) - dayjs(PointB.dateFrom);
 
 const sortTime = (PointA, PointB) =>
   (dayjs(PointB.dateTo).diff(dayjs(PointB.dateFrom))) - (dayjs(PointA.dateTo).diff(dayjs(PointA.dateFrom)));
 
 const sortPrice = (PointA, PointB) => PointB.basePrice - PointA.basePrice;
+
+const isDatesDifference = (pointA, pointB) => (
+  pointA.dateFrom !== pointB.dateFrom ||
+  pointA.basePrice !== pointB.basePrice ||
+  getDuration(pointA.dateFrom, pointA.dateTo) !== getDuration(pointB.dateFrom, pointB.dateTo)
+);
 
 export {
   conversionDate,
@@ -61,5 +67,6 @@ export {
   isEventToday,
   sortDay,
   sortTime,
-  sortPrice
+  sortPrice,
+  isDatesDifference
 };

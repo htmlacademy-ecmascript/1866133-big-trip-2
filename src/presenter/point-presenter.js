@@ -2,6 +2,8 @@ import { render, replace, remove } from '../framework/render.js';
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view.js';
 import { isEscapeKey } from '../utils/common.js';
+import { UserAction, UpdateType} from '../const.js';
+import { isDatesDifference } from '../utils/event.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -19,7 +21,6 @@ export default class PointPresenter {
   #handlePointChange = null;
   #handleModeChange = null;
   #mode = Mode.DEFAULT;
-
 
   constructor({offers, destinations, pointListContainer, onPointChange, onModeChange}) {
     this.#offers = offers;
@@ -50,6 +51,7 @@ export default class PointPresenter {
       offers: this.#offers,
       destinations: this.#destinations,
       onFormSubmit: this.#handleFormSubmit,
+      onDeleteButtonClick: this.#handleDeleteClick,
       onEditButtonClick: this.#handleFormClose
     });
 
@@ -96,7 +98,11 @@ export default class PointPresenter {
   }
 
   #handleFavoriteClick = () => {
-    this.#handlePointChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#handlePointChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      {...this.#point, isFavorite: !this.#point.isFavorite}
+    );
   };
 
   #onDocumentKeydown = (evt) => {
@@ -115,9 +121,24 @@ export default class PointPresenter {
     this.resetView();
   };
 
-  #handleFormSubmit = (point) => {
-    this.#handlePointChange(point);
+  #handleFormSubmit = (update) => {
+
+    const isMinorUpdate = isDatesDifference(this.#point, update);
+
+    this.#handlePointChange(
+      UserAction.UPDATE_POINT,
+      isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+      update
+    );
     this.#replaceFormToCard();
     document.removeEventListener('keydown', this.#onDocumentKeydown);
+  };
+
+  #handleDeleteClick = (point) => {
+    this.#handlePointChange(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point
+    );
   };
 }

@@ -3,22 +3,33 @@ import AbstractView from '../framework/view/abstract-view.js';
 
 export default class ListFilterView extends AbstractView {
   #filters = null;
+  #currentFilter = null;
+  #handleFilterTypeChange = null;
 
-  constructor({filters}) {
+  constructor({filters, currentFilterType, onFilterTypeChange}) {
     super();
     this.#filters = filters;
+    this.#currentFilter = currentFilterType;
+    this.#handleFilterTypeChange = onFilterTypeChange;
+
+    this.element.addEventListener('change', this.#filterTypeChangeHandler);
   }
 
   get template() {
-    return createListFilterTemplate(this.#filters);
+    return createListFilterTemplate(this.#filters, this.#currentFilter);
   }
+
+  #filterTypeChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFilterTypeChange(evt.target.value);
+  };
 }
 
 
-function createListFilterTemplate(filterItems) {
+function createListFilterTemplate(filterItems, currentFilterType) {
 
   const filterItemsTemplate = filterItems
-    .map((filter, index) => createFilterItemTemplate(filter, index === 0))
+    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
   return (
@@ -30,7 +41,7 @@ function createListFilterTemplate(filterItems) {
 
 }
 
-function createFilterItemTemplate (filter, isChecked) {
+function createFilterItemTemplate (filter, currentFilterType) {
 
   const {type, count} = filter;
 
@@ -43,7 +54,7 @@ function createFilterItemTemplate (filter, isChecked) {
           type="radio"
           name="trip-filter"
           value="${type}"
-          ${isChecked ? 'checked' : ''}
+          ${type === currentFilterType ? 'checked' : ''}
           ${count === 0 ? 'disabled' : ''}
         >
         <label

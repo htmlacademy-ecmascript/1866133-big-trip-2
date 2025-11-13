@@ -81,8 +81,9 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    const input = document.querySelector('.event__input--destination');
-    if (input.value !== '') {
+    const destinationInput = document.querySelector('.event__input--destination');
+    const valideValues = this.#destinations.map((dest) => dest.name);
+    if (valideValues.includes(destinationInput.value)) {
       this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
     }
   };

@@ -13,14 +13,33 @@ const SortType = {
   PRICE: 'sort-price'
 };
 
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT'
+};
+
+const UpdateType = {
+  PATCH: 'PACTH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR'
+};
+
 const getDefaultPoint = () => ({
+  id: `${new Date()}`,
   basePrice: 0,
   dateFrom: new Date().toISOString(),
   dateTo: new Date().toISOString(),
-  destination: 0,
+  destination: null,
   isFavorite: false,
   offers: [],
-  type: POINT_TYPES[0]
+  type: POINT_TYPES[5]
 });
 
-export { POINT_TYPES , getDefaultPoint, FilterType, SortType };
+export { POINT_TYPES,
+  FilterType,
+  SortType,
+  UserAction,
+  UpdateType,
+  getDefaultPoint
+};

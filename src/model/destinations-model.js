@@ -12,7 +12,7 @@ export default class DestinationsModel {
     this.#destinations = destinations;
   }
 
-  destinations() {
+  get destinations() {
     return this.#destinations;
   }
 }

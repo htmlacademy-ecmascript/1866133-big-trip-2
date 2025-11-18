@@ -22,14 +22,15 @@ const UserAction = {
 const UpdateType = {
   PATCH: 'PACTH',
   MINOR: 'MINOR',
-  MAJOR: 'MAJOR'
+  MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 const getDefaultPoint = () => ({
-  id: `${new Date()}`,
+  //id: `${new Date()}`,
   basePrice: 0,
-  dateFrom: new Date().toISOString(),
-  dateTo: new Date().toISOString(),
+  dateFrom: '',
+  dateTo: '',
   destination: null,
   isFavorite: false,
   offers: [],

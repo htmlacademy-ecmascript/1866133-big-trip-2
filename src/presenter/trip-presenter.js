@@ -2,6 +2,7 @@ import { render, remove } from '../framework/render';
 import ListSortView from '../view/list-sort-view.js';
 import ListPointsView from '../view/list-points-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
+import LoadingView from '../view/loading-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { sortDay, sortTime, sortPrice} from '../utils/event.js';
@@ -18,10 +19,12 @@ export default class TripPresenter {
   #sortComponent = null;
   #noPointComponent = null;
   #pointsListComponent = new ListPointsView();
+  #loadingComponent = new LoadingView();
   #pointPresenters = new Map();
   #newPointPresenter = null;
   #currentSortType = null;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
   constructor({ container, pointModel, offersModel, destinationsModel, filterModel, onNewPointDestroy }) {
     this.#container = container;
@@ -105,6 +108,11 @@ export default class TripPresenter {
         this.#clearTripBoard({resetSortType: true});
         this.#renderTripBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderTripBoard();
+        break;
     }
   };
 
@@ -146,6 +154,10 @@ export default class TripPresenter {
     points.forEach((point) => this.#renderPoint(point));
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#container);
+  }
+
   #renderNoPoints() {
 
     this.#noPointComponent = new ListEmptyView({
@@ -163,6 +175,7 @@ export default class TripPresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -175,6 +188,11 @@ export default class TripPresenter {
   }
 
   #renderTripBoard() {
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
 
     const points = this.points;
     const pointCount = points.length;

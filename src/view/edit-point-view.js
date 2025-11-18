@@ -97,7 +97,7 @@ export default class EditPointView extends AbstractStatefulView {
   };
 
   #priceInputHandler = (evt) => {
-    this._setState({...this._state, basePrice: evt.target.value});
+    this._setState({...this._state, basePrice: +evt.target.value});
   };
 
   #typeEventChangeHandler = (evt) => {
@@ -127,7 +127,6 @@ export default class EditPointView extends AbstractStatefulView {
 
   #dateToCloseHandler = ([userDate]) => {
     this._setState({...this._state, dateTo: userDate});
-    this.#datepickerFrom.set('maxDate', this._state.dateTo);
   };
 
   #setDatePicker() {
@@ -144,8 +143,7 @@ export default class EditPointView extends AbstractStatefulView {
       dateFromElement,
       { ...commonConfig,
         defaultDate: this._state.dateFrom,
-        onClose: this.#dateFromCloseHandler,
-        maxDate: this._state.dateTo
+        onClose: this.#dateFromCloseHandler
       }
     );
 
@@ -180,7 +178,7 @@ function createEditPointTemplate(point, offers, destinations) {
 
   const pointDestination = destinations.find((dest) => dest.id === destination) || getDefaultPoint();
   const { description, pictures } = pointDestination;
-  const pointId = point.id;
+  const pointId = point.id || 0;
 
   const typesListHtml = POINT_TYPES.map((pointType) => (
     `<div class="event__type-item">
@@ -288,7 +286,9 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-start-time-${pointId}"
               type="text"
               name="event-start-time"
-              value="${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}"
+              /*value="${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}"*/
+              value="${dateFrom ? `${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}` : ''}"
+
             >
             &mdash;
             <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
@@ -297,7 +297,8 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-end-time-${pointId}"
               type="text"
               name="event-end-time"
-              value="${conversionDate(dateTo, 'calendar-date')} ${conversionDate(dateTo, 'only-time')}"
+              value="${dateTo ? `${conversionDate(dateTo, 'calendar-date')} ${conversionDate(dateTo, 'only-time')}` : ''}"
+
             >
           </div>
 
@@ -325,7 +326,7 @@ function createEditPointTemplate(point, offers, destinations) {
         <section class="event__details">
           ${offersListHtml}
 
-          ${pointDestination.name ? (
+          ${pointDestination.description ? (
       `<section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
             <p class="event__destination-description">${description}</p>

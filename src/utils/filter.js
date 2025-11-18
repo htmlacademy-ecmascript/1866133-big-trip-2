@@ -1,5 +1,5 @@
-import { FilterType } from '../const';
-import { isEventExpired, isEventToday } from './event';
+import { FilterType } from '../const.js';
+import { isEventExpired, isEventToday } from './event.js';
 
 
 const filter = {

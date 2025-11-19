@@ -1,6 +1,3 @@
-//import { mockDestinations as destinations } from '../mocks/destinations';
-//import { UpdateType } from '../const.js';
-
 export default class DestinationsModel {
 
   #destinations = null;
@@ -15,7 +12,6 @@ export default class DestinationsModel {
     try {
       const destinations = await this.#pointsApiService.destinations;
       this.#destinations = destinations;
-      window.console.log('this.#destinations', this.#destinations);
     } catch (error) {
       this.#destinations = [];
     }

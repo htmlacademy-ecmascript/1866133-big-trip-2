@@ -4,6 +4,7 @@ import { conversionDate } from '../utils/event.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import he from 'he';
 
 const formatOfferTitle = (title) => title.split(' ').join('-').toLowerCase();
 
@@ -16,6 +17,7 @@ export default class EditPointView extends AbstractStatefulView {
   #handleEditClick = null;
   #datepickerFrom = null;
   #datepickerTo = null;
+
 
   constructor({point, offers, destinations, onFormSubmit, onDeleteButtonClick, onEditButtonClick}) {
     super();
@@ -109,6 +111,8 @@ export default class EditPointView extends AbstractStatefulView {
 
     if (selectedDestination) {
       this.updateElement({...this._state, destination: selectedDestination.id});
+    } else {
+      evt.target.value = '';
     }
   };
 
@@ -158,17 +162,29 @@ export default class EditPointView extends AbstractStatefulView {
 
   }
 
-  static parsePointToState = (point) => point;
+  static parsePointToState(point) {
+    return {
+      ...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false
+    };
+  }
 
   static parseStateToPoint(state){
     const point = {...state};
+
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
     return point;
   }
 }
 
 
 function createEditPointTemplate(point, offers, destinations) {
-  const { dateFrom, dateTo, destination, type } = point;
+  const { dateFrom, dateTo, destination, type, isDisabled, isSaving, isDeleting } = point;
 
   // все возможные предложения для данного типа точки
   const typeOffers = offers.find((offer) => offer.type === type).offers;
@@ -270,9 +286,10 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-destination-${pointId}"
               type="text"
               name="event-destination"
-              value='${pointDestination.name ? pointDestination.name : ''}'
+              value='${pointDestination.name ? he.encode(pointDestination.name) : ''}'
               list="destination-list-${pointId}"
               required
+              ${isDisabled ? 'disabled' : ''}
             >
             <datalist id="destination-list-${pointId}">
               ${destinationOptionsHtml.join('')}
@@ -286,9 +303,8 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-start-time-${pointId}"
               type="text"
               name="event-start-time"
-              /*value="${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}"*/
               value="${dateFrom ? `${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}` : ''}"
-
+              ${isDisabled ? 'disabled' : ''}
             >
             &mdash;
             <label class="visually-hidden" for="event-end-time-${pointId}">To</label>
@@ -298,7 +314,7 @@ function createEditPointTemplate(point, offers, destinations) {
               type="text"
               name="event-end-time"
               value="${dateTo ? `${conversionDate(dateTo, 'calendar-date')} ${conversionDate(dateTo, 'only-time')}` : ''}"
-
+              ${isDisabled ? 'disabled' : ''}
             >
           </div>
 
@@ -311,13 +327,16 @@ function createEditPointTemplate(point, offers, destinations) {
               class="event__input  event__input--price"
               id="event-price-${pointId}"
               type="number"
-              min="1"
               name="event-price"
-              value=${point.basePrice}>
+              value=${point.basePrice}
+              ${isDisabled ? 'disabled' : ''}
+            >
           </div>
 
-          <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">${pointDestination.name ? 'Delete' : 'Cansel'}</button>
+          <button class="event__save-btn  btn  btn--blue" type="submit">${isSaving ? 'Saving...' : 'Save'}</button>
+          <button class="event__reset-btn" type="reset">
+            ${ pointDestination.name ? (`${isDeleting ? 'Deleting...' : 'Delete'}`) : 'Cansel' }
+          </button>
           ${pointDestination.name ? (`<button class="event__rollup-btn" type="button">
             <span class="visually-hidden">Open event</span>
           </button>`)

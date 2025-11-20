@@ -27,7 +27,6 @@ export default class PointModel extends Observable {
       ]);
       const points = await this.#pointsApiService.points;
       this.#points = points.map(this.#adaptToClient);
-      //window.console.log('this.#points', this.#points);
     } catch (error) {
       this.#points = [];
     }
@@ -68,16 +67,25 @@ export default class PointModel extends Observable {
     }
   }
 
-  addPoint(updateType, update) {
-
-    this.#points.push(update);
-    this._notify(updateType, update);
+  async addPoint(updateType, update) {
+    try {
+      const response = await this.#pointsApiService.addPoint(update);
+      const newPoint = this.#adaptToClient(response);
+      this.#points.push(newPoint);
+      this._notify(updateType, newPoint);
+    } catch (error) {
+      throw new Error('Не удается добавить новую точку');
+    }
   }
 
-  deletePoint(updateType, update) {
-
-    this.#points = this.#points.filter((item) => item.id !== update.id);
-    this._notify(updateType);
+  async deletePoint(updateType, update) {
+    try {
+      await this.#pointsApiService.deletePoint(update);
+      this.#points = this.#points.filter((item) => item.id !== update.id);
+      this._notify(updateType);
+    } catch (error) {
+      throw new Error('Не удается удалить точку');
+    }
   }
 
   #adaptToClient(point) {

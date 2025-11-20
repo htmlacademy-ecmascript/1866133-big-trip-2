@@ -27,7 +27,6 @@ const UpdateType = {
 };
 
 const getDefaultPoint = () => ({
-  //id: `${new Date()}`,
   basePrice: 0,
   dateFrom: '',
   dateTo: '',

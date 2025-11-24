@@ -1,19 +1,19 @@
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import duration from 'dayjs/plugin/duration';
 
-dayjs.extend(utc);
 dayjs.extend(duration);
 
+
 const DateFormat = {
-  'short-date': 'MMM DD',
-  'full-date': 'YYYY-MM-DD',
-  'only-time': 'HH:mm',
-  'full-date-and-time': 'YYYY-MM-DDTHH:mm',
-  'calendar-date': 'DD/MM/YY'
+  ShortDate: 'MMM D',
+  FullDate: 'YYYY-MM-DD',
+  OnlyTime: 'HH:mm',
+  FullDateAndTime: 'YYYY-MM-DDTHH:mm',
+  CalendarDate: 'DD/MM/YY',
+  ShortDateReverse: 'D MMM'
 };
 
-const conversionDate = (date, type) => dayjs.utc(date).utcOffset(1, true).format(DateFormat[type]);
+const conversionDate = (date, formatTemplate) => dayjs(date).format(formatTemplate);
 
 const getDuration = (dateFrom, dateTo) => {
 
@@ -44,7 +44,7 @@ const getDuration = (dateFrom, dateTo) => {
 };
 
 
-const isEventExpired = (dueDate) => dueDate && dayjs().isAfter(dueDate, 'D');
+const isEventExpired = (dueDate) => dueDate && dayjs().isAfter(dueDate, 'minute');
 const isEventToday = (dueDate) => dueDate && dayjs().isSame(dueDate, 'D');
 
 const sortDay = (PointA, PointB) => dayjs(PointA.dateFrom) - dayjs(PointB.dateFrom);
@@ -61,6 +61,7 @@ const isDatesDifference = (pointA, pointB) => (
 );
 
 export {
+  DateFormat,
   conversionDate,
   getDuration,
   isEventExpired,

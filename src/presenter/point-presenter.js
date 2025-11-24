@@ -88,7 +88,6 @@ export default class PointPresenter {
 
   setSaving() {
     if (this.#mode === Mode.EDITING) {
-      window.console.log('Вызвали setSaving');
       this.#pointEditComponent.updateElement({
         isDisabled: true,
         isSaving: true,

@@ -10,8 +10,9 @@ const AUTHORIZATION = 'Basic zf7H3yVbQ2mD0v9s8';
 const END_POINT = 'https://22.objects.htmlacademy.pro/big-trip';
 
 const headerElement = document.querySelector('.page-header');
-const newEventButton = headerElement.querySelector('.trip-main__event-add-btn');
-const filtersContainer = headerElement.querySelector('.trip-controls__filters');
+const tripMainContainer = headerElement.querySelector('.trip-main');
+const newEventButton = tripMainContainer.querySelector('.trip-main__event-add-btn');
+const filtersContainer = tripMainContainer.querySelector('.trip-controls__filters');
 const mainElement = document.querySelector('.page-main');
 const tripEventsContainer = mainElement.querySelector('.trip-events');
 
@@ -32,6 +33,7 @@ const filterModel = new FilterModel();
 
 
 const tripPresenter = new TripPresenter({
+  headerContainer: tripMainContainer,
   container: tripEventsContainer,
   pointModel,
   offersModel,

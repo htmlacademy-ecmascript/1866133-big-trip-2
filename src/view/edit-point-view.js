@@ -1,6 +1,6 @@
 import { POINT_TYPES, getDefaultPoint } from '../const.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
-import { conversionDate } from '../utils/event.js';
+import { DateFormat, conversionDate } from '../utils/event.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -303,7 +303,7 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-start-time-${pointId}"
               type="text"
               name="event-start-time"
-              value="${dateFrom ? `${conversionDate(dateFrom, 'calendar-date')} ${conversionDate(dateFrom, 'only-time')}` : ''}"
+              value="${dateFrom ? `${conversionDate(dateFrom, DateFormat.CalendarDate)} ${conversionDate(dateFrom, DateFormat.OnlyTime)}` : ''}"
               ${isDisabled ? 'disabled' : ''}
             >
             &mdash;
@@ -313,7 +313,7 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-end-time-${pointId}"
               type="text"
               name="event-end-time"
-              value="${dateTo ? `${conversionDate(dateTo, 'calendar-date')} ${conversionDate(dateTo, 'only-time')}` : ''}"
+              value="${dateTo ? `${conversionDate(dateTo, DateFormat.CalendarDate)} ${conversionDate(dateTo, DateFormat.OnlyTime)}` : ''}"
               ${isDisabled ? 'disabled' : ''}
             >
           </div>

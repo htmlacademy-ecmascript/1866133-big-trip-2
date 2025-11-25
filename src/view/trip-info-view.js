@@ -21,7 +21,9 @@ export default class TripInfoView extends AbstractView {
 
 function createTripInfoTitle(points, destinations) {
 
-  if(points.length > 3) {
+  const MAX_COUNT_CITY = 3;
+
+  if(points.length > MAX_COUNT_CITY) {
     const firstCity = destinations.find((item) => item.id === points[0].destination).name;
     const lastCity = destinations.find((item) => item.id === points.at(-1).destination).name;
 
@@ -32,10 +34,14 @@ function createTripInfoTitle(points, destinations) {
 }
 
 function getTripDuration(points) {
+  // Шаблон даты имеет вид 'D MMM'.
+  // Длина подстроки, отвечающая за название месяца равна 3 символа.
+  const LENGTH_MONTH_NAME = 3;
+
   let startDate = conversionDate(points[0].dateFrom, DateFormat.ShortDateReverse);
   const endDate = conversionDate(points.at(-1).dateTo, DateFormat.ShortDateReverse);
 
-  if(startDate.slice(-3) === endDate.slice(-3)) {
+  if(startDate.slice(-LENGTH_MONTH_NAME) === endDate.slice(-LENGTH_MONTH_NAME)) {
     startDate = startDate.slice(0, 2);
   }
 

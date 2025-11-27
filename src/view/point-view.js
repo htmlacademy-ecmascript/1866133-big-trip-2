@@ -1,4 +1,5 @@
-import { DateFormat, conversionDate, getDuration } from '../utils/event.js';
+import { conversionDate, getDuration } from '../utils/event.js';
+import { DateFormat } from '../const.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 export default class PointView extends AbstractView {
@@ -64,16 +65,16 @@ function createPointTemplate(point, offers, destinations) {
     `
       <li class="trip-events__item">
         <div class="event">
-          <time class="event__date" datetime=${conversionDate(dateFrom, DateFormat.FullDate)}>${conversionDate(dateFrom, DateFormat.ShortDate)}</time>
+          <time class="event__date" datetime=${conversionDate(dateFrom, DateFormat.FULL_DATE)}>${conversionDate(dateFrom, DateFormat.SHORT_DATE)}</time>
           <div class="event__type">
             <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
           </div>
           <h3 class="event__title">${type} ${pointDestination.name}</h3>
           <div class="event__schedule">
             <p class="event__time">
-              <time class="event__start-time" datetime=${conversionDate(dateFrom, DateFormat.FullDateAndTime)}>${conversionDate(dateFrom, DateFormat.OnlyTime)}</time>
+              <time class="event__start-time" datetime=${conversionDate(dateFrom, DateFormat.FULL_DATE_AND_TIME)}>${conversionDate(dateFrom, DateFormat.ONLY_TIME)}</time>
               &mdash;
-              <time class="event__end-time" datetime=${conversionDate(dateTo, DateFormat.FullDateAndTime)}>${conversionDate(dateTo, DateFormat.OnlyTime)}</time>
+              <time class="event__end-time" datetime=${conversionDate(dateTo, DateFormat.FULL_DATE_AND_TIME)}>${conversionDate(dateTo, DateFormat.ONLY_TIME)}</time>
             </p>
             <p class="event__duration">${getDuration(dateFrom, dateTo)}</p>
           </div>

@@ -1,4 +1,22 @@
-const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const POINT_TYPES = ['taxi',
+  'bus',
+  'train',
+  'ship',
+  'drive',
+  'flight',
+  'check-in',
+  'sightseeing',
+  'restaurant'
+];
+
+const DateFormat = {
+  SHORT_DATE: 'MMM D',
+  FULL_DATE: 'YYYY-MM-DD',
+  ONLY_TIME: 'HH:mm',
+  FULL_DATE_AND_TIME: 'YYYY-MM-DDTHH:mm',
+  CALENDAR_DATE: 'DD/MM/YY',
+  SHORT_DATE_REVERSE: 'D MMM'
+};
 
 const FilterType = {
   EVERYTHING: 'everything',
@@ -37,6 +55,7 @@ const getDefaultPoint = () => ({
 });
 
 export { POINT_TYPES,
+  DateFormat,
   FilterType,
   SortType,
   UserAction,

@@ -1,5 +1,6 @@
+import { conversionDate } from '../utils/event';
+import { DateFormat } from '../const.js';
 import AbstractView from '../framework/view/abstract-view';
-import { DateFormat, conversionDate } from '../utils/event';
 
 export default class TripInfoView extends AbstractView {
 
@@ -38,8 +39,8 @@ function getTripDuration(points) {
   // Длина подстроки, отвечающая за название месяца равна 3 символа.
   const LENGTH_MONTH_NAME = 3;
 
-  let startDate = conversionDate(points[0].dateFrom, DateFormat.ShortDateReverse);
-  const endDate = conversionDate(points.at(-1).dateTo, DateFormat.ShortDateReverse);
+  let startDate = conversionDate(points[0].dateFrom, DateFormat.SHORT_DATE_REVERSE);
+  const endDate = conversionDate(points.at(-1).dateTo, DateFormat.SHORT_DATE_REVERSE);
 
   if(startDate.slice(-LENGTH_MONTH_NAME) === endDate.slice(-LENGTH_MONTH_NAME)) {
     startDate = startDate.slice(0, 2);

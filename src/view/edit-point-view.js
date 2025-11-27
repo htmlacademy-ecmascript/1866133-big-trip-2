@@ -1,6 +1,6 @@
-import { POINT_TYPES, getDefaultPoint } from '../const.js';
+import { POINT_TYPES, getDefaultPoint, DateFormat } from '../const.js';
 import { capitalizeFirstLetter } from '../utils/common.js';
-import { DateFormat, conversionDate } from '../utils/event.js';
+import { conversionDate } from '../utils/event.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
@@ -17,22 +17,31 @@ export default class EditPointView extends AbstractStatefulView {
   #handleEditClick = null;
   #datepickerFrom = null;
   #datepickerTo = null;
+  #isNewPoint = false;
 
 
-  constructor({point, offers, destinations, onFormSubmit, onDeleteButtonClick, onEditButtonClick}) {
+  constructor({point,
+    offers,
+    destinations,
+    onFormSubmit,
+    onDeleteButtonClick,
+    onEditButtonClick,
+    isNewPoint
+  }) {
     super();
     this.#offers = offers;
     this.#destinations = destinations;
     this.#handleFormSubmit = onFormSubmit;
     this.#handleDeleteClick = onDeleteButtonClick;
     this.#handleEditClick = onEditButtonClick;
+    this.#isNewPoint = isNewPoint;
     this._setState(EditPointView.parsePointToState(point));
 
     this._restoreHandlers();
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destinations);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#isNewPoint);
   }
 
   removeElement() {
@@ -183,7 +192,7 @@ export default class EditPointView extends AbstractStatefulView {
 }
 
 
-function createEditPointTemplate(point, offers, destinations) {
+function createEditPointTemplate(point, offers, destinations, isNewPoint) {
   const { dateFrom, dateTo, destination, type, isDisabled, isSaving, isDeleting } = point;
 
   // все возможные предложения для данного типа точки
@@ -216,7 +225,7 @@ function createEditPointTemplate(point, offers, destinations) {
     </div> `
   ));
 
-  const destinationOptionsHtml = destinations.map((dest) => `<option value=${dest.name}></option>`);
+  const destinationOptionsHtml = destinations.map((dest) => `<option value='${dest.name}'></option>`);
 
 
   const offersListHtml = typeOffers.length > 0
@@ -303,7 +312,7 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-start-time-${pointId}"
               type="text"
               name="event-start-time"
-              value="${dateFrom ? `${conversionDate(dateFrom, DateFormat.CalendarDate)} ${conversionDate(dateFrom, DateFormat.OnlyTime)}` : ''}"
+              value="${dateFrom ? `${conversionDate(dateFrom, DateFormat.CALENDAR_DATE)} ${conversionDate(dateFrom, DateFormat.ONLY_TIME)}` : ''}"
               ${isDisabled ? 'disabled' : ''}
             >
             &mdash;
@@ -313,7 +322,7 @@ function createEditPointTemplate(point, offers, destinations) {
               id="event-end-time-${pointId}"
               type="text"
               name="event-end-time"
-              value="${dateTo ? `${conversionDate(dateTo, DateFormat.CalendarDate)} ${conversionDate(dateTo, DateFormat.OnlyTime)}` : ''}"
+              value="${dateTo ? `${conversionDate(dateTo, DateFormat.CALENDAR_DATE)} ${conversionDate(dateTo, DateFormat.ONLY_TIME)}` : ''}"
               ${isDisabled ? 'disabled' : ''}
             >
           </div>
@@ -335,12 +344,12 @@ function createEditPointTemplate(point, offers, destinations) {
 
           <button class="event__save-btn  btn  btn--blue" type="submit">${isSaving ? 'Saving...' : 'Save'}</button>
           <button class="event__reset-btn" type="reset">
-            ${ pointDestination.name ? (`${isDeleting ? 'Deleting...' : 'Delete'}`) : 'Cansel' }
+            ${ isNewPoint ? 'Cansel' : (`${isDeleting ? 'Deleting...' : 'Delete'}`) }
           </button>
-          ${pointDestination.name ? (`<button class="event__rollup-btn" type="button">
+          ${isNewPoint ? '' : (`<button class="event__rollup-btn" type="button">
             <span class="visually-hidden">Open event</span>
           </button>`)
-      : ''}
+    }
         </header>
         <section class="event__details">
           ${offersListHtml}

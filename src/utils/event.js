@@ -4,15 +4,6 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
 
-const DateFormat = {
-  ShortDate: 'MMM D',
-  FullDate: 'YYYY-MM-DD',
-  OnlyTime: 'HH:mm',
-  FullDateAndTime: 'YYYY-MM-DDTHH:mm',
-  CalendarDate: 'DD/MM/YY',
-  ShortDateReverse: 'D MMM'
-};
-
 const conversionDate = (date, formatTemplate) => dayjs(date).format(formatTemplate);
 
 const getDuration = (dateFrom, dateTo) => {
@@ -45,7 +36,7 @@ const getDuration = (dateFrom, dateTo) => {
 
 
 const isEventExpired = (dueDate) => dueDate && dayjs().isAfter(dueDate, 'minute');
-const isEventToday = (dueDate) => dueDate && dayjs().isSame(dueDate, 'D');
+const isEventToday = (dueDate) => dueDate && dayjs().isSame(dueDate, 'day');
 
 const sortDay = (PointA, PointB) => dayjs(PointA.dateFrom) - dayjs(PointB.dateFrom);
 
@@ -61,7 +52,6 @@ const isDatesDifference = (pointA, pointB) => (
 );
 
 export {
-  DateFormat,
   conversionDate,
   getDuration,
   isEventExpired,

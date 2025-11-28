@@ -18,23 +18,25 @@ export default class PointModel extends Observable {
     this.#newEventButton = newEventButton;
   }
 
+  get points() {
+    return this.#points;
+  }
+
   async init() {
+    this.#newEventButton.disabled = true;
     try {
-      this.#newEventButton.disabled = true;
       await Promise.all([
         this.#destinationsModel.init(),
         this.#offersModel.init()
       ]);
       const points = await this.#pointsApiService.points;
       this.#points = points.map(this.#adaptToClient);
+      this.#newEventButton.disabled = false;
+      this._notify(UpdateType.INIT);
     } catch (error) {
       this.#points = [];
+      this._notify(UpdateType.ERROR);
     }
-    this._notify(UpdateType.INIT);
-  }
-
-  get points() {
-    return this.#points;
   }
 
   /**

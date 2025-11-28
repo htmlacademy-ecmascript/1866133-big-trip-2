@@ -1,10 +1,11 @@
-import { render, remove, RenderPosition } from '../framework/render';
+import { render, remove, RenderPosition, replace } from '../framework/render';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import TripInfoView from '../view/trip-info-view.js';
 import ListSortView from '../view/list-sort-view.js';
 import ListPointsView from '../view/list-points-view.js';
 import ListEmptyView from '../view/list-empty-view.js';
 import LoadingView from '../view/loading-view.js';
+import ServerIsNotAvailableView from '../view/server-is-not-available-view.js';
 import PointPresenter from './point-presenter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import { sortDay, sortTime, sortPrice} from '../utils/event.js';
@@ -29,6 +30,7 @@ export default class TripPresenter {
   #tripInfoComponent = null;
   #pointsListComponent = new ListPointsView();
   #loadingComponent = new LoadingView();
+  #serverIsNotAvailableComponent = new ServerIsNotAvailableView();
   #pointPresenters = new Map();
   #newPointPresenter = null;
   #currentSortType = SortType.DEFAULT;
@@ -47,7 +49,8 @@ export default class TripPresenter {
     offersModel,
     destinationsModel,
     filterModel,
-    onNewPointDestroy}) {
+    onNewPointDestroy
+  }) {
 
     this.#headerContainer = headerContainer;
     this.#container = container;
@@ -141,10 +144,7 @@ export default class TripPresenter {
   };
 
   #handleModelEvent = (updateType, data) => {
-    // В зависимости от типа изменений решаем, что делать:
-    // обновить часть списка (например, когда добавили в избранное)
-    // обновить весь список (например, когда удалили точку)
-    // обновить всю доску (например, при переключении фильтра)
+
     switch (updateType) {
       case UpdateType.PATCH:
         this.#pointPresenters?.get(data.id)?.init(data);
@@ -164,6 +164,9 @@ export default class TripPresenter {
         remove(this.#loadingComponent);
         this.#renderTripBoard();
         break;
+      case UpdateType.ERROR:
+        this.#isLoading = false;
+        replace(this.#serverIsNotAvailableComponent, this.#loadingComponent);
     }
   };
 

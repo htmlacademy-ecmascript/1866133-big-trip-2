@@ -2,6 +2,9 @@ import { conversionDate } from '../utils/event';
 import { DateFormat } from '../const.js';
 import AbstractView from '../framework/view/abstract-view';
 
+const MAX_COUNT_CITY = 3;
+const LENGTH_MONTH_NAME = 3;
+
 export default class TripInfoView extends AbstractView {
 
   #points = [];
@@ -22,8 +25,6 @@ export default class TripInfoView extends AbstractView {
 
 function createTripInfoTitle(points, destinations) {
 
-  const MAX_COUNT_CITY = 3;
-
   if(points.length > MAX_COUNT_CITY) {
     const firstCity = destinations.find((item) => item.id === points[0].destination).name;
     const lastCity = destinations.find((item) => item.id === points.at(-1).destination).name;
@@ -35,9 +36,6 @@ function createTripInfoTitle(points, destinations) {
 }
 
 function getTripDuration(points) {
-  // Шаблон даты имеет вид 'D MMM'.
-  // Длина подстроки, отвечающая за название месяца равна 3 символа.
-  const LENGTH_MONTH_NAME = 3;
 
   let startDate = conversionDate(points[0].dateFrom, DateFormat.SHORT_DATE_REVERSE);
   const endDate = conversionDate(points.at(-1).dateTo, DateFormat.SHORT_DATE_REVERSE);

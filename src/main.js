@@ -58,9 +58,6 @@ function onNewEventButtonClick() {
   newEventButton.disabled = true;
 }
 
-pointModel.init().finally(() => {
-  newEventButton.disabled = false;
-});
-
+pointModel.init();
 filterPresenter.init();
 tripPresenter.init();

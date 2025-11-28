@@ -41,7 +41,8 @@ const UpdateType = {
   PATCH: 'PACTH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
-  INIT: 'INIT'
+  INIT: 'INIT',
+  ERROR: 'ERROR'
 };
 
 const getDefaultPoint = () => ({

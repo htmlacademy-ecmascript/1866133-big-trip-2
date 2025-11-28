@@ -9,6 +9,10 @@ export default class OffersModel {
     this.#pointsApiService = pointsApiService;
   }
 
+  get offers() {
+    return this.#offers;
+  }
+
   async init() {
     try {
       const offers = await this.#pointsApiService.offers;
@@ -16,9 +20,5 @@ export default class OffersModel {
     } catch (error) {
       this.#offers = [];
     }
-  }
-
-  get offers() {
-    return this.#offers;
   }
 }

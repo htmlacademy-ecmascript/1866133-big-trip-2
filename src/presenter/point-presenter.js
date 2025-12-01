@@ -22,12 +22,12 @@ export default class PointPresenter {
   #handleModeChange = null;
   #mode = Mode.DEFAULT;
 
-  constructor({offers, destinations, pointListContainer, onPointChange, onModeChange}) {
+  constructor({offers, destinations, pointListContainer, handlePointChange, handleModeChange}) {
     this.#offers = offers;
     this.#destinations = destinations;
     this.#pointListContainer = pointListContainer;
-    this.#handlePointChange = onPointChange;
-    this.#handleModeChange = onModeChange;
+    this.#handlePointChange = handlePointChange;
+    this.#handleModeChange = handleModeChange;
   }
 
 
@@ -42,17 +42,17 @@ export default class PointPresenter {
       point: this.#point,
       offers: this.#offers,
       destinations: this.#destinations,
-      onEditButtonClick: this.#handleFormOpen,
-      onFavoriteButtonClick: this.#handleFavoriteClick
+      handleEditClick: this.#handleFormOpen,
+      handleFavoriteClick: this.#handleFavoriteClick
     });
 
     this.#pointEditComponent = new EditPointView({
       point: this.#point,
       offers: this.#offers,
       destinations: this.#destinations,
-      onFormSubmit: this.#handleFormSubmit,
-      onDeleteButtonClick: this.#handleDeleteClick,
-      onEditButtonClick: this.#handleFormClose,
+      handleFormSubmit: this.#handleFormSubmit,
+      handleDeleteClick: this.#handleDeleteClick,
+      handleFormClose: this.#handleFormClose,
       isNewPoint: false
     });
 
@@ -128,14 +128,14 @@ export default class PointPresenter {
 
   #replaceCardToForm() {
     replace(this.#pointEditComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.#onDocumentKeydown);
+    document.addEventListener('keydown', this.#handleKeyDown);
     this.#handleModeChange();
     this.#mode = Mode.EDITING;
   }
 
   #replaceFormToCard() {
     replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener('keydown', this.#onDocumentKeydown);
+    document.removeEventListener('keydown', this.#handleKeyDown);
     this.#mode = Mode.DEFAULT;
   }
 
@@ -147,7 +147,7 @@ export default class PointPresenter {
     );
   };
 
-  #onDocumentKeydown = (evt) => {
+  #handleKeyDown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.#pointEditComponent.reset(this.#point);
@@ -173,7 +173,7 @@ export default class PointPresenter {
       update
     );
 
-    document.removeEventListener('keydown', this.#onDocumentKeydown);
+    document.removeEventListener('keydown', this.#handleKeyDown);
   };
 
   #handleDeleteClick = (point) => {

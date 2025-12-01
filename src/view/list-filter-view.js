@@ -6,11 +6,11 @@ export default class ListFilterView extends AbstractView {
   #currentFilter = null;
   #handleFilterTypeChange = null;
 
-  constructor({filters, currentFilterType, onFilterTypeChange}) {
+  constructor({filters, currentFilterType, handleFilterTypeChange}) {
     super();
     this.#filters = filters;
     this.#currentFilter = currentFilterType;
-    this.#handleFilterTypeChange = onFilterTypeChange;
+    this.#handleFilterTypeChange = handleFilterTypeChange;
 
     this.element.addEventListener('change', this.#filterTypeChangeHandler);
   }

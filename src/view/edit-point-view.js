@@ -14,7 +14,7 @@ export default class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #handleFormSubmit = null;
   #handleDeleteClick = null;
-  #handleEditClick = null;
+  #handleFormClose = null;
   #datepickerFrom = null;
   #datepickerTo = null;
   #isNewPoint = false;
@@ -23,17 +23,17 @@ export default class EditPointView extends AbstractStatefulView {
   constructor({point,
     offers,
     destinations,
-    onFormSubmit,
-    onDeleteButtonClick,
-    onEditButtonClick,
+    handleFormSubmit,
+    handleDeleteClick,
+    handleFormClose,
     isNewPoint
   }) {
     super();
     this.#offers = offers;
     this.#destinations = destinations;
-    this.#handleFormSubmit = onFormSubmit;
-    this.#handleDeleteClick = onDeleteButtonClick;
-    this.#handleEditClick = onEditButtonClick;
+    this.#handleFormSubmit = handleFormSubmit;
+    this.#handleDeleteClick = handleDeleteClick;
+    this.#handleFormClose = handleFormClose;
     this.#isNewPoint = isNewPoint;
     this._setState(EditPointView.parsePointToState(point));
 
@@ -100,7 +100,7 @@ export default class EditPointView extends AbstractStatefulView {
   };
 
   #editClickHandler = () => {
-    this.#handleEditClick();
+    this.#handleFormClose();
   };
 
   #formDeleteClickHandler = () => {

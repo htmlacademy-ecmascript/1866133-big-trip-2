@@ -45,24 +45,24 @@ export default class TripPresenter {
   constructor({
     headerContainer,
     container,
-    pointModel,
+    pointsModel,
     offersModel,
     destinationsModel,
     filterModel,
-    onNewPointDestroy
+    handleNewPointFormClose
   }) {
 
     this.#headerContainer = headerContainer;
     this.#container = container;
-    this.#pointsModel = pointModel;
+    this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
     this.#filterModel = filterModel;
 
     this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#pointsListComponent.element,
-      onPointChange: this.#handleViewAction,
-      onDestroy: onNewPointDestroy
+      handlePointChange: this.#handleViewAction,
+      handleNewPointFormClose
     });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
@@ -204,7 +204,7 @@ export default class TripPresenter {
   #renderSort() {
     this.#sortComponent = new ListSortView({
       currentSortType: this.#currentSortType,
-      onSortFormChange: this.#handleSortFormChange
+      handleSortFormChange: this.#handleSortFormChange
     });
     render(this.#sortComponent, this.#container);
   }
@@ -215,8 +215,8 @@ export default class TripPresenter {
       offers: [...this.offers],
       destinations: [...this.destinations],
       pointListContainer: this.#pointsListComponent.element,
-      onPointChange: this.#handleViewAction,
-      onModeChange: this.#handleModeChange
+      handlePointChange: this.#handleViewAction,
+      handleModeChange: this.#handleModeChange
     });
 
     this.#pointPresenters.set(point.id, pointPresenter);

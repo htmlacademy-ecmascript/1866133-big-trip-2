@@ -3,14 +3,14 @@ import { SortType } from '../const.js';
 
 export default class ListSortView extends AbstractView {
 
-  #onSortFormChange = null;
+  #handleSortFormChange = null;
   #sortType = null;
   #currentSortType = null;
 
 
-  constructor({currentSortType, onSortFormChange}) {
+  constructor({currentSortType, handleSortFormChange}) {
     super();
-    this.#onSortFormChange = onSortFormChange;
+    this.#handleSortFormChange = handleSortFormChange;
     this.#currentSortType = currentSortType;
     this.element.addEventListener('change', this.#sortFormChangeHandler);
   }
@@ -21,7 +21,7 @@ export default class ListSortView extends AbstractView {
 
   #sortFormChangeHandler = () => {
     this.#sortType = this.element['trip-sort'].value;
-    this.#onSortFormChange(this.#sortType);
+    this.#handleSortFormChange(this.#sortType);
   };
 }
 

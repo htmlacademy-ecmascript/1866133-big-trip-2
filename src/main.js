@@ -1,6 +1,6 @@
-import PointModel from './model/points-model';
-import OffersModel from './model/offers-model';
-import DestinationsModel from './model/destinations-model';
+import PointsModel from './model/points-model.js';
+import OffersModel from './model/offers-model.js';
+import DestinationsModel from './model/destinations-model.js';
 import FilterModel from './model/filter-model.js';
 import TripPresenter from './presenter/trip-presenter';
 import FilterPresenter from './presenter/filter-presenter.js';
@@ -22,7 +22,7 @@ const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
 
 const offersModel = new OffersModel({pointsApiService});
 const destinationsModel = new DestinationsModel({pointsApiService});
-const pointModel = new PointModel({
+const pointsModel = new PointsModel({
   pointsApiService,
   offersModel,
   destinationsModel,
@@ -35,17 +35,17 @@ const filterModel = new FilterModel();
 const tripPresenter = new TripPresenter({
   headerContainer: tripMainContainer,
   container: tripEventsContainer,
-  pointModel,
+  pointsModel,
   offersModel,
   destinationsModel,
   filterModel,
-  onNewPointDestroy: handleNewPointFormClose
+  handleNewPointFormClose
 });
 
 const filterPresenter = new FilterPresenter({
   filterContainer: filtersContainer,
   filterModel,
-  pointModel
+  pointsModel
 });
 
 function handleNewPointFormClose() {
@@ -58,6 +58,6 @@ function onNewEventButtonClick() {
   newEventButton.disabled = true;
 }
 
-pointModel.init();
+pointsModel.init();
 filterPresenter.init();
 tripPresenter.init();
